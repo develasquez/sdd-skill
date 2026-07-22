@@ -16,7 +16,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 1. **Power Inversion**: Specifications do not serve code — code serves specifications. Updating a feature means evolving the spec and plan first.
 2. **Intent-Driven Development**: Developers specify intent, acceptance criteria, and constraints in natural language; AI agents generate architecture, tasks, and code.
 3. **Executable Specifications**: Specifications are precise, complete, and testable. Ambiguities are explicitly marked with `[NEEDS CLARIFICATION: ...]`.
-4. **MVP-First Story Slicing**: User journeys are prioritized (P1, P2, P3). User Story 1 (P1) is an independently testable Minimum Viable Product (MVP).
+4. **MVP-First Story Slicing**: User journeys are prioritized (P1, P2, P3…). User Story 1 (P1) is an independently testable Minimum Viable Product (MVP).
 
 ---
 
@@ -46,7 +46,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
   1. **Phase 1 — Reconnaissance**: Scan project root for config files (`package.json`, `pyproject.toml`, `Dockerfile`, `Makefile`, `README.md`, CI configs, migrations). Build a map of the stack, framework, and directory structure. No files written yet.
   2. **Phase 2 — Deep Analysis**: Read key source files — entry points, routers/controllers, ORM models, services, tests, middleware, error handlers, external integrations. Extract entities, endpoints, business rules, deployment patterns, testing strategy.
   3. **Phase 3 — Artifact Generation**: Write `specs/000-baseline/` with ALL the same artifacts that `/sdd-specify` + `/sdd-plan` would produce, but describing what **already exists**:
-     - `spec.md`: User Stories (P1/P2/P3), FR-001+, Edge Cases, Success Criteria — all inferred from code with `[INFERRED FROM: path]` tags.
+      - `spec.md`: User Stories (P1/P2/P3…), FR-001+, Edge Cases, Success Criteria — all inferred from code with `[INFERRED FROM: path]` tags.
      - `plan.md`: Current architecture, component map, data flow, dependency table.
      - `research.md`: Technology decisions with inferred rationale and alternatives.
      - `data-model.md`: Entity definitions with fields, types, relations, validation rules.
@@ -76,7 +76,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
   2. Determine the next sequential number by scanning `specs/` — create directory `specs/[NNN-short-name]/`.
   3. Persist the resolved path to `.specify/feature.json`.
   4. Fill out the spec using `templates/spec-template.md` as structure:
-     - **User Stories**: Prioritized P1 (MVP), P2, P3. Each story MUST be independently testable using `Given / When / Then` acceptance criteria.
+      - **User Stories**: Prioritized P1 (MVP), P2, P3… ( Add more User Stories as needed). Each story MUST be independently testable using `Given / When / Then` acceptance criteria.
      - **Functional Requirements**: `FR-001`, `FR-002`...
      - **Success Criteria**: `SC-001`, `SC-002`... (technology-agnostic, measurable metrics — no frameworks/APIs).
      - **Ambiguities**: Use `[NEEDS CLARIFICATION: specific question]` — **maximum 3 markers total**.

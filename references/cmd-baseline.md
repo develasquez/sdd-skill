@@ -169,6 +169,8 @@ Use the **same structure** as a normal spec (`templates/spec-template.md`) but t
 
 ---
 
+<!-- Add more User Stories as needed (P4, P5...) following the same format -->
+
 ### Edge Cases (inferred from existing handlers)
 - [Boundary condition] → handled in [file:line] via [mechanism]
 - [Error scenario] → caught by [error handler at file:line]

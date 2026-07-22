@@ -89,7 +89,7 @@ Copy or symlink `SDD-Skill` into your workspace skills folder:
                            │
                            ▼
                ┌───────────────────────┐
-               │       sdd-tasks       │  (Task breakdown by User Story P1/P2/P3)
+               │       sdd-tasks       │  (Task breakdown by User Story P1/P2/P3…)
                └───────────┬───────────┘
                            │
             ┌──────────────┴──────────────┐
@@ -152,6 +152,6 @@ Once installed, invoke SDD commands in your AI Coding Assistant:
 
 - **Zero External Dependencies**: Uses native Markdown templates and standard Python 3.
 - **Power Inversion**: Specifications are executable source code blueprints, eliminating spec-code drift.
-- **MVP Priority (P1/P2/P3)**: User Story 1 (P1) is always designed as an independent MVP slice.
+- **MVP Priority (P1/P2/P3…)**: User Story 1 (P1) is always designed as an independent MVP slice.
 - **Brownfield Ready**: `/sdd-baseline` reverse-engineers existing code into full SDD artifacts.
 - **Universal AI Agent Compatibility**: Works out-of-the-box in Claude, Antigravity, OpenCode, Cursor, and any Agent Skills-compliant system.

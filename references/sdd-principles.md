@@ -26,7 +26,7 @@ The Product Requirements Document (PRD) and technical specifications are not pas
    Traditional gaps between product requirements, architecture plans, task lists, and source code are eliminated by establishing direct lineage and cross-artifact consistency checks.
 
 5. **MVP-First Story Slicing**:
-   User journeys are prioritized (P1, P2, P3). User Story 1 (P1) represents an independently testable, minimal viable slice of value. Every subsequent story builds incrementally on top.
+   User journeys are prioritized (P1, P2, P3…). User Story 1 (P1) represents an independently testable, minimal viable slice of value. Every subsequent story builds incrementally on top.
 
 6. **Continuous Alignment**:
    If production realities or code refactoring alter system behavior, documentation and specs are brought back into alignment via convergence workflows.

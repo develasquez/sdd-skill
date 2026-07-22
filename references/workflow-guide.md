@@ -29,7 +29,7 @@ The SDD lifecycle consists of 10 distinct, structured commands that guide softwa
                            │
                            ▼
                ┌───────────────────────┐
-               │       sdd-tasks       │  (Task breakdown by User Story P1/P2/P3)
+               │       sdd-tasks       │  (Task breakdown by User Story P1/P2/P3…)
                └───────────┬───────────┘
                            │
             ┌──────────────┴──────────────┐
@@ -74,7 +74,7 @@ The SDD lifecycle consists of 10 distinct, structured commands that guide softwa
 - **Output**: `specs/[###-feature-name]/spec.md`.
 - **Key Actions**:
   - Auto-allocates next sequential feature number (e.g. `001`, `002`).
-  - Identifies prioritized User Stories (P1 MVP, P2, P3).
+  - Identifies prioritized User Stories (P1 MVP, P2, P3…).
   - Uses `Given / When / Then` format for acceptance criteria.
   - Marks ambiguous requirements explicitly with `[NEEDS CLARIFICATION: ...]`.
 
