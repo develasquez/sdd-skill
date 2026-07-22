@@ -2,7 +2,7 @@
 
 A portable, universal **Skill** for AI Coding Assistants (**Claude Code**, **Antigravity IDE / CLI**, **OpenCode**, **Cursor**, **Codex**, **Gemini CLI**).
 
-This skill brings **Specification-Driven Development (SDD)** directly to your AI agent without requiring complex CLI tool installations or heavy dependencies. Under SDD, specifications and technical plans are the primary, executable source of truth — code is a continuously generated expression of the specification.
+This skill brings **Specification-Driven Development (SDD)** directly to your AI agent without requiring complex CLI tool installations or heavy dependencies.
 
 ---
 
@@ -10,28 +10,28 @@ This skill brings **Specification-Driven Development (SDD)** directly to your AI
 
 ```text
 SDD-Skill/
-├── SKILL.md                              # Main Skill definition & agent instruction set
-├── templates/                            # Ready-to-use SDD templates
-│   ├── spec-template.md                  # Feature specification template
-│   ├── plan-template.md                  # Technical implementation plan template
-│   ├── tasks-template.md                 # Task breakdown template
-│   ├── constitution-template.md          # Project constitution template
-│   └── checklist-template.md             # Quality checklist template
-├── references/                           # Deep-dive command references & methodology
-│   ├── sdd-principles.md                 # Power Inversion & core principles
-│   ├── workflow-guide.md                 # Complete workflow breakdown
-│   ├── cmd-specify.md                    # Feature creation & naming algorithm
-│   ├── cmd-clarify.md                    # 9-category ambiguity resolution
-│   ├── cmd-plan.md                       # Architecture, research & contracts
-│   ├── cmd-tasks.md                      # Task breakdown format & rules
-│   ├── cmd-analyze.md                    # 6-pass cross-artifact consistency check
-│   ├── cmd-checklist.md                  # Domain quality checklist generation
-│   ├── cmd-implement.md                  # Task execution & checklist gates
-│   ├── cmd-converge.md                   # Codebase drift detection & convergence
-│   └── cmd-taskstoissues.md              # GitHub Issues export
-├── scripts/                              # Cross-platform Python helper
-│   └── sdd_helper.py                     # Zero-dependency feature & template manager
-└── README.md                             # Quick installation & usage guide
+├── SKILL.md                          # Main Skill definition & 10 SDD commands
+├── templates/                        # Ready-to-use SDD templates
+│   ├── spec-template.md              # Feature specification template
+│   ├── plan-template.md              # Technical implementation plan template
+│   ├── tasks-template.md             # Task breakdown template
+│   ├── constitution-template.md      # Project constitution template
+│   └── checklist-template.md         # Quality checklist template
+├── references/                       # Deep-dive command references & methodology
+│   ├── cmd-baseline.md               # /sdd-baseline — reverse-engineer existing codebase
+│   ├── cmd-specify.md                # /sdd-specify — create feature specifications
+│   ├── cmd-plan.md                   # /sdd-plan — technical architecture & contracts
+│   ├── cmd-tasks.md                  # /sdd-tasks — prioritized task breakdown
+│   ├── cmd-clarify.md                # /sdd-clarify — ambiguity resolution
+│   ├── cmd-analyze.md                # /sdd-analyze — cross-artifact consistency
+│   ├── cmd-checklist.md              # /sdd-checklist — domain quality gates
+│   ├── cmd-implement.md              # /sdd-implement — sequential execution
+│   ├── cmd-converge.md               # /sdd-converge — spec-code realignment
+│   ├── sdd-principles.md             # Power Inversion & core SDD philosophy
+│   └── workflow-guide.md             # Complete workflow diagram & descriptions
+├── scripts/                          # Cross-platform Python helper
+│   └── sdd_helper.py                 # Zero-dependency feature & template manager
+└── README.md                         # Quick installation & usage guide
 ```
 
 ---
@@ -39,40 +39,112 @@ SDD-Skill/
 ## 🚀 Installation
 
 ### npx (recommended)
+
 ```sh
 npx skills add https://github.com/develasquez/sdd-skill
 ```
 
-### Google Antigravity (AGY)
-Copy or symlink into your skills directory:
+### 1. Google Antigravity (AGY)
+Copy or symlink `SDD-Skill` into your skills directory:
 - **Project level**: `<project-root>/.gemini/skills/sdd-skill/` or `.agents/skills/sdd-skill/`
 - **Global level**: `~/.gemini/skills/sdd-skill/`
 
-### Claude Code
-Copy or symlink into your Claude skills directory:
+### 2. Claude Code
+Copy or symlink `SDD-Skill` into your Claude skills directory:
 - **Project level**: `<project-root>/.claude/skills/sdd-skill/`
 - **Global level**: `~/.claude/skills/sdd-skill/`
 
-### OpenCode / Cursor / Codex
-Copy or symlink into your workspace skills folder:
+### 3. OpenCode / Codex / AI Agents
+Copy or symlink `SDD-Skill` into your workspace skills folder:
 - `.agents/skills/sdd-skill/`
 
 ---
 
-## 💡 Commands Reference
+## 💡 Workflow
 
-| Command | What it does | Key output |
-|---|---|---|
-| `/sdd-constitution` | Establish or update non-negotiable project governance rules (TDD, CLI-first, zero secrets, etc.) | `specs/constitution.md` |
-| `/sdd-specify <description>` | Create a feature specification from a natural language description. Generates user stories (P1/P2/P3), functional requirements, success criteria, and auto-detects ambiguities | `specs/[NNN-feature]/spec.md` + `checklists/requirements.md` |
-| `/sdd-clarify` | Interactively resolve ambiguities in the specification using a 9-category taxonomy. Asks one targeted question at a time (max 5) | Updated `spec.md` with clarifications |
-| `/sdd-plan <tech stack>` | Produce technical architecture, data model, research decisions, API contracts, and a runnable quickstart guide. Checks constitution gates first | `plan.md`, `research.md`, `data-model.md`, `contracts/`, `quickstart.md` |
-| `/sdd-tasks` | Break down the plan into prioritized, actionable tasks grouped by phase (Setup → Foundational → User Stories → Polish) | `tasks.md` with task IDs, priority, and US labels |
-| `/sdd-analyze` | Read-only cross-artifact consistency check across 6 categories (duplication, ambiguity, underspecification, constitution alignment, coverage gaps, inconsistency) | Structured report with CRITICAL→LOW severity |
-| `/sdd-checklist <type>` | Generate domain-specific quality checklists ("Unit Tests for English") to validate specification quality before implementation | `checklists/[type].md` (append-only, max 40 items) |
-| `/sdd-implement` | Execute tasks sequentially, auto-creates ignore files, gates on checklists, pauses at user story checkpoints | Working code + updated `tasks.md` |
-| `/sdd-converge` | After implementation, assess codebase against spec/plan/tasks and append any missing work to `tasks.md` (never modifies specs or code) | `tasks.md` with appended convergence phase |
-| `/sdd-taskstoissues` | Export `tasks.md` tasks to GitHub Issues (requires GitHub MCP server) | GitHub Issues with `T###:` prefix titles |
+```text
+               ┌───────────────────────┐
+               │     sdd-baseline      │  (Reverse-engineer existing codebase)
+               └───────────┬───────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │   sdd-constitution    │  (Project-wide governance)
+               └───────────┬───────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │      sdd-specify      │  (Feature request → specs/###-name/spec.md)
+               └───────────┬───────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │      sdd-clarify      │  (Interactive ambiguity resolution)
+               └───────────┬───────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │       sdd-plan        │  (Technical plan & design contracts)
+               └───────────┬───────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │       sdd-tasks       │  (Task breakdown by User Story P1/P2/P3)
+               └───────────┬───────────┘
+                           │
+            ┌──────────────┴──────────────┐
+            ▼                             ▼
+  ┌───────────────────┐         ┌───────────────────┐
+  │    sdd-analyze    │         │   sdd-checklist   │
+  │ (Read-only check) │         │ (Domain quality)  │
+  └─────────┬─────────┘         └─────────┬─────────┘
+            │                             │
+            └──────────────┬──────────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │     sdd-implement     │  (Sequential execution)
+               └───────────┬───────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │      sdd-converge     │  (Re-align spec & code if diverged)
+               └───────────────────────┘
+```
+
+Once installed, invoke SDD commands in your AI Coding Assistant:
+
+```bash
+# 0. Reverse-engineer existing codebase (brownfield projects)
+/sdd-baseline
+
+# 1. Establish project rules & constitution (optional)
+/sdd-constitution
+
+# 2. Create a new feature specification
+/sdd-specify Real-time chat system with message history
+
+# 3. Interactively clarify ambiguities
+/sdd-clarify
+
+# 4. Generate technical implementation plan & contracts
+/sdd-plan FastAPI, PostgreSQL, WebSockets, Redis
+
+# 5. Break plan into prioritized, actionable tasks
+/sdd-tasks
+
+# 6. Perform cross-artifact consistency check (read-only)
+/sdd-analyze
+
+# 7. Generate domain quality checklists
+/sdd-checklist security
+
+# 8. Execute implementation step-by-step
+/sdd-implement
+
+# 9. Detect drift between spec and codebase
+/sdd-converge
+```
 
 ---
 
@@ -81,4 +153,5 @@ Copy or symlink into your workspace skills folder:
 - **Zero External Dependencies**: Uses native Markdown templates and standard Python 3.
 - **Power Inversion**: Specifications are executable source code blueprints, eliminating spec-code drift.
 - **MVP Priority (P1/P2/P3)**: User Story 1 (P1) is always designed as an independent MVP slice.
+- **Brownfield Ready**: `/sdd-baseline` reverse-engineers existing code into full SDD artifacts.
 - **Universal AI Agent Compatibility**: Works out-of-the-box in Claude, Antigravity, OpenCode, Cursor, and any Agent Skills-compliant system.

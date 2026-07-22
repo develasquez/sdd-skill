@@ -1,10 +1,15 @@
 # SDD Workflow Guide
 
-The SDD lifecycle consists of 9 distinct, structured commands that guide software from high-level user intent to verified, production-ready code.
+The SDD lifecycle consists of 10 distinct, structured commands that guide software from existing-code understanding to verified, production-ready code.
 
 ```text
                ┌───────────────────────┐
-               │    sdd-constitution   │  (Project-wide governance)
+               │     sdd-baseline      │  (Reverse-engineer existing codebase)
+               └───────────┬───────────┘
+                           │
+                           ▼
+               ┌───────────────────────┐
+               │   sdd-constitution    │  (Project-wide governance)
                └───────────┬───────────┘
                            │
                            ▼
@@ -48,6 +53,16 @@ The SDD lifecycle consists of 9 distinct, structured commands that guide softwar
 ```
 
 ---
+
+## 0. `/sdd-baseline`
+- **Goal**: Reverse-engineer an existing codebase into complete SDD artifacts.
+- **Output**: `specs/000-baseline/{spec.md, plan.md, research.md, data-model.md, contracts/, quickstart.md}`.
+- **When to run**: At project start for brownfield/legacy projects, before any other SDD command.
+- **Key Actions**:
+  - Scans project root for config, dependencies, and structure.
+  - Reads source code to extract User Stories, FRs, entities, endpoints, and architecture.
+  - Generates all plan-time artifacts (research, data-model, contracts, quickstart) from existing code.
+  - Tags every inference with `[INFERRED FROM: path]` for human validation.
 
 ## 1. `/sdd-constitution`
 - **Goal**: Establish or update non-negotiable project principles, coding standards, and architectural constraints.

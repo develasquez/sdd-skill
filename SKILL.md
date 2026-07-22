@@ -1,6 +1,6 @@
 ---
 name: sdd-skill
-description: Specification-Driven Development (SDD) skill for AI coding assistants (Claude, Antigravity, OpenCode, Cursor, Codex, Gemini). Inverts the power dynamic so code serves executable specifications. Provides complete workflows for constitution, specify, clarify, plan, tasks, implement, checklist, analyze, converge, and taskstoissues.
+description: Specification-Driven Development (SDD) skill for AI coding assistants (Claude, Antigravity, OpenCode, Cursor, Codex, Gemini). Inverts the power dynamic so code serves executable specifications. Provides complete workflows for baseline, constitution, specify, clarify, plan, tasks, implement, checklist, analyze, and converge.
 ---
 
 # Specification-Driven Development (SDD) Skill
@@ -23,7 +23,8 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 ## Quick Command Reference
 
 | Command | Action | Primary Output | Reference |
-|---|---|---|---|
+|---|---|---|---|---|
+| `/sdd-baseline` | Reverse-engineer existing codebase into complete SDD artifacts | `specs/000-baseline/{spec,plan,research,data-model,contracts,quickstart}` | `references/cmd-baseline.md` |
 | `/sdd-constitution` | Establish or update non-negotiable project governance | `specs/constitution.md` | — |
 | `/sdd-specify [description]` | Create feature specification from natural language description | `specs/[###-feature]/spec.md` + `checklists/requirements.md` | `references/cmd-specify.md` |
 | `/sdd-clarify` | Interactively resolve ambiguities (1 question at a time, max 5) | Updated `spec.md` | `references/cmd-clarify.md` |
@@ -33,13 +34,31 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 | `/sdd-checklist [type]` | Generate domain quality checklists ("Unit Tests for English") | `checklists/[type].md` | `references/cmd-checklist.md` |
 | `/sdd-implement` | Execute tasks sequentially; auto-creates ignore files; gates on checklists | Working Code + Updated `tasks.md` | `references/cmd-implement.md` |
 | `/sdd-converge` | Assess codebase against spec/plan/tasks and APPEND missing work to `tasks.md` | `tasks.md` (appended only) | `references/cmd-converge.md` |
-| `/sdd-taskstoissues` | Convert `tasks.md` tasks into GitHub Issues (requires GitHub MCP) | GitHub Issues | `references/cmd-taskstoissues.md` |
 
 ---
 
 ## Detailed Command Instructions
 
-### 1. `/sdd-constitution`
+### 1. `/sdd-baseline`
+- **When to run**: At project start (brownfield) or when taking over an existing codebase.
+- **Reference**: `references/cmd-baseline.md` — 3-phase protocol, inference rules, artifact formats.
+- **Agent Instructions**:
+  1. **Phase 1 — Reconnaissance**: Scan project root for config files (`package.json`, `pyproject.toml`, `Dockerfile`, `Makefile`, `README.md`, CI configs, migrations). Build a map of the stack, framework, and directory structure. No files written yet.
+  2. **Phase 2 — Deep Analysis**: Read key source files — entry points, routers/controllers, ORM models, services, tests, middleware, error handlers, external integrations. Extract entities, endpoints, business rules, deployment patterns, testing strategy.
+  3. **Phase 3 — Artifact Generation**: Write `specs/000-baseline/` with ALL the same artifacts that `/sdd-specify` + `/sdd-plan` would produce, but describing what **already exists**:
+     - `spec.md`: User Stories (P1/P2/P3), FR-001+, Edge Cases, Success Criteria — all inferred from code with `[INFERRED FROM: path]` tags.
+     - `plan.md`: Current architecture, component map, data flow, dependency table.
+     - `research.md`: Technology decisions with inferred rationale and alternatives.
+     - `data-model.md`: Entity definitions with fields, types, relations, validation rules.
+     - `contracts/`: API endpoints, event types, CLI schemas (only if external surface exists).
+     - `quickstart.md`: Build, configure, run, and test commands extracted from existing scripts.
+  4. Tag every inference: `[INFERRED FROM: path]` for high confidence, `[NEEDS VALIDATION: reason]` for moderate, `[NEEDS CLARIFICATION: question]` when no code evidence exists (max 5).
+  5. Do NOT write or modify any application code. Reads only.
+  6. Report a completion summary with artifact paths, scanner stats, and pending markers.
+
+---
+
+### 2. `/sdd-constitution`
 - **When to run**: At project start or when adding project-wide constraints.
 - **Agent Instructions**:
   1. Check if `specs/constitution.md` or `.specify/constitution.md` exists.
@@ -49,7 +68,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 2. `/sdd-specify [description]`
+### 3. `/sdd-specify [description]`
 - **When to run**: Starting a new feature.
 - **Reference**: `references/cmd-specify.md` — feature naming algorithm, auto-checklist generation, NEEDS CLARIFICATION rules, Success Criteria guidelines.
 - **Agent Instructions**:
@@ -66,7 +85,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 3. `/sdd-clarify`
+### 4. `/sdd-clarify`
 - **When to run**: Before technical planning, to resolve ambiguities in `spec.md`.
 - **Reference**: `references/cmd-clarify.md` — 9-category taxonomy, sequential questioning protocol, encoding format, coverage summary table.
 - **Agent Instructions**:
@@ -79,7 +98,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 4. `/sdd-plan [tech stack]`
+### 5. `/sdd-plan [tech stack]`
 - **When to run**: When `spec.md` is complete and clear.
 - **Reference**: `references/cmd-plan.md` — Phase 0 research, quickstart.md scope rules, contracts optionality, constitution gates.
 - **Agent Instructions**:
@@ -94,7 +113,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 5. `/sdd-tasks`
+### 6. `/sdd-tasks`
 - **When to run**: After `plan.md` and design artifacts exist.
 - **Reference**: `references/cmd-tasks.md` — exact task format, WRONG/CORRECT examples, [USx] label rules, tests-optional rule.
 - **Agent Instructions**:
@@ -111,7 +130,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 6. `/sdd-analyze`
+### 7. `/sdd-analyze`
 - **When to run**: Pre-implementation check. Run AFTER `tasks.md` exists.
 - **Reference**: `references/cmd-analyze.md` — 6 detection categories, CRITICAL/HIGH/MEDIUM/LOW severity, structured table format.
 - **Agent Instructions**:
@@ -124,7 +143,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 7. `/sdd-checklist [type]`
+### 8. `/sdd-checklist [type]`
 - **When to run**: Adding specialized domain verification before or during implementation.
 - **Reference**: `references/cmd-checklist.md` — "Unit Tests for English" concept, WRONG/CORRECT examples, CHK### IDs, append-only behavior.
 - **Agent Instructions**:
@@ -136,7 +155,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 8. `/sdd-implement`
+### 9. `/sdd-implement`
 - **When to run**: Executing feature development.
 - **Reference**: `references/cmd-implement.md` — checklist gate table, ignore files auto-creation, task execution rules, error handling.
 - **Agent Instructions**:
@@ -153,7 +172,7 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 9. `/sdd-converge`
+### 10. `/sdd-converge`
 - **When to run**: After `/sdd-implement` has processed `tasks.md` and the codebase may have drifted from the spec.
 - **Reference**: `references/cmd-converge.md` — APPEND-ONLY constraint, gap types, severity, convergence task format.
 - **Agent Instructions**:
@@ -168,12 +187,4 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ---
 
-### 10. `/sdd-taskstoissues`
-- **When to run**: After `tasks.md` is generated, to track work in GitHub Issues.
-- **Reference**: `references/cmd-taskstoissues.md` — deduplication, GitHub MCP requirements, issue title format.
-- **Requires**: GitHub MCP server (`github/github-mcp-server`). Skip if not available.
-- **Agent Instructions**:
-  1. Verify the repo remote is a GitHub URL. Do NOT proceed otherwise.
-  2. Fetch existing issues and build a set of task IDs that already have issues (deduplication).
-  3. For each uncovered task, create an issue with title format: `T001: <description>`.
-  4. Report: issues created, issues skipped (already existed), any errors.
+
