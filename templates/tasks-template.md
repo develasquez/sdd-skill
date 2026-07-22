@@ -3,10 +3,11 @@
 **Input**: Design documents from `specs/[###-feature-name]/`
 **Prerequisites**: `plan.md` (required), `spec.md` (required), `research.md`, `data-model.md`, `contracts/`
 
-## Task Format: `[Txxx] [P?] [USx] Description`
+## Task Format: `[Txxx] [P?] [USx] [TAG?] Description`
 
 - **[P]**: Can run in parallel (independent files, no blocking dependencies)
 - **[USx]**: Maps task to User Story x (e.g., US1, US2, US3)
+- **[TAG]**: Optional classification for critical tasks: `[DATABASE]`, `[SECURITY-CRITICAL]`, `[API]`, `[MIGRATION]`, `[UI]`, `[INFRASTRUCTURE]`
 - Always include exact file paths in task descriptions.
 
 ---
@@ -25,7 +26,7 @@
 
 **Purpose**: Core infrastructure required before user stories can begin
 
-- [ ] T004 Define core data schemas and database models
+- [ ] T004 [DATABASE] Define core data schemas and database models
 - [ ] T005 [P] Setup base middleware / error handling structures
 - [ ] T006 [P] Configure environment variables and config loader
 
@@ -69,3 +70,7 @@
 - [ ] T030 [P] Update user and API documentation
 - [ ] T031 Refactor and clean up code
 - [ ] T032 Run performance / security checks
+
+---
+
+> **Note**: For any critical task (database, security, API, migration), create a task spec at `tasks/[NNN-task-name]/task-TNNN.md` using `templates/task-template.md`.

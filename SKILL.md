@@ -115,18 +115,20 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ### 6. `/sdd-tasks`
 - **When to run**: After `plan.md` and design artifacts exist.
-- **Reference**: `references/cmd-tasks.md` — exact task format, WRONG/CORRECT examples, [USx] label rules, tests-optional rule.
+- **Reference**: `references/cmd-tasks.md` — exact task format, WRONG/CORRECT examples, [USx] label rules, tests-optional rule, task spec generation.
 - **Agent Instructions**:
   1. Read `spec.md`, `plan.md`, `data-model.md`, `contracts/` (if present).
   2. **Tests are OPTIONAL** — only include test tasks if the spec or user explicitly requests them.
-  3. Generate tasks in strict checklist format: `- [ ] T001 [P?] [USx] Description with exact file path`
+  3. Generate tasks in strict checklist format: `- [ ] T001 [P?] [USx] [TAG?] Description with exact file path`
      - `[USx]` label is **REQUIRED** in User Story phases, **NOT included** in Setup/Foundational/Polish phases.
+     - `[TAG]` is **OPTIONAL** — add for critical tasks: `[DATABASE]`, `[SECURITY-CRITICAL]`, `[API]`, `[MIGRATION]`, `[UI]`, `[INFRASTRUCTURE]`
   4. Group tasks into phases:
      - **Phase 1: Setup** — No `[USx]` label. Directory layout, tooling.
      - **Phase 2: Foundational** — No `[USx]` label. Core schemas, middleware, DB connections. Blocks all user stories.
      - **Phase 3+: User Story N (Px)** — `[USx]` label REQUIRED. One phase per story, in priority order.
      - **Final Phase: Polish** — No `[USx]` label. Documentation, optimization, cleanup.
-  5. Output a completion report: total tasks, per-story count, parallel opportunities, MVP scope.
+  5. **Task spec generation**: For architecturally significant or high-risk tasks (DB changes, security-critical, API integrations), generate an individual task spec at `tasks/[NNN-task-name]/task-TNNN.md` using `templates/task-template.md`. Include operational tags in the task line.
+  6. Output a completion report: total tasks, per-story count, task specs generated, parallel opportunities, MVP scope.
 
 ---
 
@@ -157,18 +159,17 @@ This skill equips AI coding agents with **Specification-Driven Development (SDD)
 
 ### 9. `/sdd-implement`
 - **When to run**: Executing feature development.
-- **Reference**: `references/cmd-implement.md` — checklist gate table, ignore files auto-creation, task execution rules, error handling.
+- **Reference**: `references/cmd-implement.md` — constitution injection, checklist gate, task spec resolution, per-task phase protocol, error handling.
 - **Agent Instructions**:
-  1. Verify prerequisite files: `spec.md`, `plan.md`, `tasks.md`.
-  2. **Checklist gate**: Scan all `checklists/*.md`, build a status table. If any are incomplete, ask user to confirm before proceeding. Halt if user says no.
-  3. Auto-detect and create/verify ignore files (`.gitignore`, `.dockerignore`, etc.) based on tech stack in `plan.md`.
-  4. Process tasks phase-by-phase:
-     - Write tests FIRST only if test tasks are explicitly listed in `tasks.md`.
-     - Implement code in target files (models → services → endpoints/UI).
-     - Mark each completed task in `tasks.md`: `- [x] T001...`
-     - Parallel tasks `[P]` can run together; sequential tasks must complete before the next starts.
-     - Halt if a non-parallel task fails. For parallel task failures, continue others and report.
-  5. Pause at User Story phase checkpoints to validate independence.
+  1. **Constitution injection**: Load `specs/constitution.md` (or `.specify/constitution.md`) and inject into system prompt. Verify task alignment with all MUST principles. **HALT** on violations.
+  2. Verify prerequisite files: `spec.md`, `plan.md`, `tasks.md`.
+  3. **Checklist gate**: Scan all `checklists/*.md`, build a status table. If any are incomplete, ask user to confirm before proceeding. Halt if user says no.
+  4. Auto-detect and create/verify ignore files (`.gitignore`, `.dockerignore`, etc.) based on tech stack in `plan.md`.
+  5. Process tasks using the **Before / During / After** per-task protocol:
+     - **Before**: Load constitution, resolve task spec (`tasks/*/task-TNNN.md`), consult decision history, check dependencies.
+     - **During**: Implement in isolation, follow modular patterns, respect tags (`[DATABASE]`, `[SECURITY-CRITICAL]`, etc.).
+     - **After**: Run tests, run security/migration checks per tags, log decisions, mark complete.
+  6. Pause at User Story phase checkpoints to validate independence.
 
 ---
 

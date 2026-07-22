@@ -85,11 +85,70 @@ Map each user story from `spec.md` to a phase:
 
 ---
 
+---
+
+## Task Spec Generation for Critical Tasks
+
+When a task is identified as **architecturally significant, high-risk, or complex**, generate an individual task specification file using `templates/task-template.md`.
+
+### Criteria for Task Spec Generation
+
+Generate a task spec when a task involves any of the following:
+
+| Criteria | Examples |
+|---|---|
+| Database schema changes | New tables, migrations, indexes, data backfills |
+| Security-sensitive operations | Authentication, authorization, encryption, secrets management |
+| External API integration | Third-party services, webhooks, payment gateways |
+| Cross-cutting infrastructure | Caching layer, message queues, service mesh |
+| Breaking changes | Contract changes, data format migrations, API versioning |
+| High business risk | Payment flows, compliance, data loss prevention |
+
+### Task Spec Output
+
+Place the file at `tasks/[NNN-task-short-name]/task-TNNN.md`:
+
+```
+tasks/
+└── 001-user-auth/
+    ├── task-T001.md
+    └── task-T005.md
+```
+
+### Task Spec Content
+
+Fill `templates/task-template.md` with:
+- **Operational Classification**: Apply one or more tags: `[DATABASE]`, `[SECURITY-CRITICAL]`, `[API]`, `[MIGRATION]`, `[UI]`, `[INFRASTRUCTURE]`
+- **Before**: Consult decision history, search reference patterns, verify constitution alignment
+- **During**: Implement in isolation, modular patterns
+- **After**: Run tests, run security analysis if `[SECURITY-CRITICAL]`, run migration validation if `[DATABASE]`/`[MIGRATION]`, log decisions, commit with structured message
+- **Database & Migration Policy**: ⛔ No production migrations without validated rollback plan, backup strategy, and seed data definition
+- **Security Requirements**: Mandatory checks when `[SECURITY-CRITICAL]` is set
+
+### Tag Propagation to `tasks.md`
+
+Update the task line in `tasks.md` to include the classification tag:
+
+```
+- [ ] T012 [P] [US1] [DATABASE] Create User model in src/models/user.py
+- [ ] T042 [SECURITY-CRITICAL] Encrypt PII fields at rest in src/models/user.py
+```
+
+### Report
+
+Include in the completion report:
+- Number of task specs generated
+- List of task spec paths
+- Classification tags used
+
+---
+
 ## Completion Report
 
 After generating `tasks.md`, report:
 - Total task count
 - Task count per user story
+- Task specs generated (paths and tags)
 - Parallel opportunities identified
 - Independent test criteria for each story
 - Suggested MVP scope (typically User Story 1 only)
