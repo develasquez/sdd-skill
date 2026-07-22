@@ -1,6 +1,11 @@
 ---
 name: sdd-skill
 description: Specification-Driven Development (SDD) skill for AI coding assistants (Claude, Antigravity, OpenCode, Cursor, Codex, Gemini). Inverts the power dynamic so code serves executable specifications. Provides complete workflows for baseline, constitution, specify, clarify, plan, tasks, implement, checklist, analyze, and converge.
+metadata:
+  version: 0.1.5
+  author: https://github.com/develasquez
+  license: MIT
+
 ---
 
 # Specification-Driven Development (SDD) Skill
