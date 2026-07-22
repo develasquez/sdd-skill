@@ -29,6 +29,11 @@ SDD-Skill/
 
 ## 🚀 Installation
 
+### 0. npx
+```sh
+npx skills add https://github.com/develasquez/sdd-skill 
+```
+
 ### 1. Google Antigravity (AGY)
 Copy or symlink `SDD-Skill` into your skills directory:
 - **Project level**: `<project-root>/.gemini/skills/sdd-skill/` or `.agents/skills/sdd-skill/`
